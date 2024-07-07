@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advisor Section</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .advisor-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .advisor-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .advisor-header h2 {
+            font-size: 2em;
+            margin: 0;
+            color: #9082f7;
+        }
+        .advisors {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .advisor-card {
+            /* #fff; #babecc*/
+            background-color: #475C45;
+            border-radius: 10px;
+            /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
+            box-shadow: 10px 10px 20px #babecc, -10px -10px 20px #ffffff;
+            margin-bottom: 20px;
+            padding: 15px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+        .advisor-card:hover {
+            transform: scale(1.05);
+        }
+        .advisor-card img {
+            border-radius: 50%;
+            box-shadow: 10px 10px 20px #babecc, -10px -10px 20px #ffffff;
+            /* filter: drop-shadow(10px 8px 66px rgb( 0, 238, 255));
+            animation: AdvisorImage 1.5s linear infinite; */
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .advisor-card img:hover {
+            transform: scale(1.05);
+        } 
+        /* @keyframes AdvisorImage {
+          5%  {filter: drop-shadow(10px 8px 66px rgb(238, 255,0));} 
+          15%  {filter: drop-shadow(10px 8px 66px rgb(255, 255,255));}
+          35%  {filter: drop-shadow(10px 8px 66px rgb(0, 119, 255));} 
+          55%  {filter: drop-shadow(10px 8px 66px rgb(0, 255,17));} 
+          75%  {filter: drop-shadow(10px 8px 66px rgb( 255,0,132));}   
+          100%  {filter: drop-shadow(10px 8px 66px rgb(0, 255,251));} 
+        } */
+        .advisor-card h3 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #F5C144;
+        }
+        .advisor-card p {
+            font-size: 1em;
+            margin: 10px 0;
+            color: #ACD1FB;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .advisor-card p:hover {
+            transform: rotateY(180deg);          
+        }
+        .advisor-card p::before {
+            content: attr(data-more-info);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            backface-visibility: hidden;
+            background-color: #475C45;
+            transform: rotateY(180deg);
+            color: #ACD1FB;
+        }
+        .advisor-card .icons {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .advisor-card .icons a {
+            color: #4CAF50;
+            font-size: 1.5em;
+            text-decoration: none;
+        }
+        .advisor-card .icons a:hover {
+            color: #45a049;
+           box-shadow: 2px 2px 20px #ACD1FB, -2px -2px 20px #ACD1FB;
+           background-color:#ffffff ;
+           border-radius: 50%;
+        }
+        .advisor-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .advisor-buttons a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .advisor-buttons a:hover {
+            background-color: #45a049;
+        }
+        .advisor-badge, .online-indicator {
+            position: absolute;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 0.8em;
+        }
+        .advisor-badge {
+            top: 10px;
+            left: 10px;
+            background-color: #6a1b9a;
+        }
+        .online-indicator {
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+        }
+        @media (max-width: 1080px) {
+            .advisor-card {
+                width: calc(33% - 20px);
+            }
+            .advisor-card h3 {
+                font-size: 1.1em;
+            }
+            .advisor-card p {
+                font-size: 0.9em;
+            }
+            .advisor-card .icons a {
+                font-size: 1.3em;
+            }
+            .advisor-buttons a {
+                font-size: 0.9em;
+                padding: 8px 12px;
+            }
+        }
+        @media (max-width: 768px) {
+            .advisor-card {
+                width: calc(50% - 20px);
+            }
+            .advisor-card h3 {
+                font-size: 1em;
+            }
+            .advisor-card p {
+                font-size: 0.8em;
+            }
+            .advisor-card .icons a {
+                font-size: 1.1em;
+            }
+            .advisor-buttons a {
+                font-size: 0.8em;
+                padding: 7px 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .advisor-card {
+                width: calc(50% - 5px);
+            }
+            .advisor-card h3 {
+                font-size: 0.9em;
+            }
+            .advisor-card p {
+                font-size: 0.7em;
+            }
+            .advisor-card .icons a {
+                font-size: 1em;
+            }
+            .advisor-buttons a {
+                font-size: 0.7em;
+                padding: 5px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="advisor-section">
+        <div class="advisor-header">
+            <h2>Our Top Advisors</h2>
+        </div>
+        <div class="advisors">
+            <div class="advisor-card">
+                <div class="advisor-badge">Top Advisor</div>
+                <div class="online-indicator">Online</div>
+                <img src="/asset/image/advisor1.jpg"  loading="lazy" alt="Advisor 1">
+                <h3>Jacqueline Lee</h3>
+                <p data-more-info="Additional information about Love & Relationships.">Specialty: Love & Relationships</p>
+                <div class="icons">
+                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="advisor-buttons">
+                    <a href="#">Profile</a>
+                    <a href="#">Premium</a>
+                </div>
+            </div>
+            <div class="advisor-card">
+                <div class="advisor-badge">Top Advisor</div>
+                <div class="online-indicator">Online</div>
+                <img src="/asset/image/advisor2.jpg" loading="lazy" alt="Advisor 2">
+                <h3>Sid PowerfulVisions</h3>
+                <p data-more-info="Additional information about Career & Finances.">Specialty: Career & Finances</p>
+                <div class="icons">
+                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="advisor-buttons">
+                    <a href="#">Profile</a>
+                    <a href="#">Premium</a>
+                </div>
+            </div>
+            <div class="advisor-card">
+                <div class="advisor-badge">Top Advisor</div>
+                <div class="online-indicator">Online</div>
+                <img src="/asset/image/advisor3.jpg" loading="lazy" alt="Advisor 3">
+                <h3>SPIRITUAL INSIGHTS B</h3>
+                <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                <div class="icons">
+                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="advisor-buttons">
+                    <a href="#">Profile</a>
+                    <a href="#">Premium</a>
+                </div>
+            </div>
+            <div class="advisor-card">
+                <div class="advisor-badge">Top Advisor</div>
+                <div class="online-indicator">Online</div>
+                <img src="/asset/image/advisor4.jpg" loading="lazy" alt="Advisor 4">
+                <h3>Seer Magdalena</h3>
+                <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                <div class="icons">
+                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                    <a href="#"><i class="fas fa-phone"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="advisor-buttons">
+                    <a href="#">Profile</a>
+                    <a href="#">Premium</a>
+                </div>
+            </div>
+            
+                <div class="advisor-card">
+                    <div class="advisor-badge">Top Advisor</div>
+                    <div class="online-indicator">Online</div>
+                    <img src="/asset/image/advisor1.jpg" loading="lazy" alt="Advisor 1">
+                    <h3>Jacqueline Lee</h3>
+                    <p data-more-info="Additional information about Love & Relationships.">Specialty: Love & Relationships</p>
+                    <div class="icons">
+                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                        <a href="#"><i class="fas fa-phone"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <div class="advisor-buttons">
+                        <a href="#">Profile</a>
+                        <a href="#">Premium</a>
+                    </div>
+                </div>
+                <div class="advisor-card">
+                    <div class="advisor-badge">Top Advisor</div>
+                    <div class="online-indicator">Online</div>
+                    <img src="/asset/image/advisor2.jpg" loading="lazy" alt="Advisor 2">
+                    <h3>Sid PowerfulVisions</h3>
+                    <p data-more-info="Additional information about Career & Finances.">Specialty: Career & Finances</p>
+                    <div class="icons">
+                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                        <a href="#"><i class="fas fa-phone"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <div class="advisor-buttons">
+                        <a href="#">Profile</a>
+                        <a href="#">Premium</a>
+                    </div>
+                </div>
+                <div class="advisor-card">
+                    <div class="advisor-badge">Top Advisor</div>
+                    <div class="online-indicator">Online</div>
+                    <img src="/asset/image/advisor3.jpg" loading="lazy" alt="Advisor 3">
+                    <h3>SPIRITUAL INSIGHTS B</h3>
+                    <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                    <div class="icons">
+                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                        <a href="#"><i class="fas fa-phone"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <div class="advisor-buttons">
+                        <a href="#">Profile</a>
+                        <a href="#">Premium</a>
+                    </div>
+                </div>
+                <div class="advisor-card">
+                    <div class="advisor-badge">Top Advisor</div>
+                    <div class="online-indicator">Online</div>
+                    <img src="/asset/image/advisor4.jpg" loading="lazy" alt="Advisor 4">
+                    <h3>Seer Magdalena</h3>
+                    <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                    <div class="icons">
+                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                        <a href="#"><i class="fas fa-phone"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <div class="advisor-buttons">
+                        <a href="#">Profile</a>
+                        <a href="#">Premium</a>
+                    </div>
+                </div>
+              
+                    <div class="advisor-card">
+                        <div class="advisor-badge">Top Advisor</div>
+                        <div class="online-indicator">Online</div>
+                        <img src="/asset/image/advisor1.jpg" loading="lazy" alt="Advisor 1">
+                        <h3>Jacqueline Lee</h3>
+                        <p data-more-info="Additional information about Love & Relationships.">Specialty: Love & Relationships</p>
+                        <div class="icons">
+                            <a href="#"><i class="fas fa-comment-dots"></i></a>
+                            <a href="#"><i class="fas fa-phone"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                        <div class="advisor-buttons">
+                            <a href="#">Profile</a>
+                            <a href="#">Premium</a>
+                        </div>
+                    </div>
+                    <div class="advisor-card">
+                        <div class="advisor-badge">Top Advisor</div>
+                        <div class="online-indicator">Online</div>
+                        <img src="/asset/image/advisor2.jpg" loading="lazy" alt="Advisor 2">
+                        <h3>Sid PowerfulVisions</h3>
+                        <p data-more-info="Additional information about Career & Finances.">Specialty: Career & Finances</p>
+                        <div class="icons">
+                            <a href="#"><i class="fas fa-comment-dots"></i></a>
+                            <a href="#"><i class="fas fa-phone"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                        <div class="advisor-buttons">
+                            <a href="#">Profile</a>
+                            <a href="#">Premium</a>
+                        </div>
+                    </div>
+                    <div class="advisor-card">
+                        <div class="advisor-badge">Top Advisor</div>
+                        <div class="online-indicator">Online</div>
+                        <img src="/asset/image/advisor3.jpg" loading="lazy" alt="Advisor 3">
+                        <h3>SPIRITUAL INSIGHTS B</h3>
+                        <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                        <div class="icons">
+                            <a href="#"><i class="fas fa-comment-dots"></i></a>
+                            <a href="#"><i class="fas fa-phone"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                        <div class="advisor-buttons">
+                            <a href="#">Profile</a>
+                            <a href="#">Premium</a>
+                        </div>
+                    </div>
+                    <div class="advisor-card">
+                        <div class="advisor-badge">Top Advisor</div>
+                        <div class="online-indicator">Online</div>
+                        <img src="/asset/image/advisor4.jpg" loading="lazy" alt="Advisor 4">
+                        <h3>Seer Magdalena</h3>
+                        <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                        <div class="icons">
+                            <a href="#"><i class="fas fa-comment-dots"></i></a>
+                            <a href="#"><i class="fas fa-phone"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                        <div class="advisor-buttons">
+                            <a href="#">Profile</a>
+                            <a href="#">Premium</a>
+                        </div>
+                    </div>
+                    
+                        <div class="advisor-card">
+                            <div class="advisor-badge">Top Advisor</div>
+                            <div class="online-indicator">Online</div>
+                            <img src="/asset/image/advisor1.jpg" loading="lazy" alt="Advisor 1">
+                            <h3>Jacqueline Lee</h3>
+                            <p data-more-info="Additional information about Love & Relationships.">Specialty: Love & Relationships</p>
+                            <div class="icons">
+                                <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                <a href="#"><i class="fas fa-phone"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                            <div class="advisor-buttons">
+                                <a href="#">Profile</a>
+                                <a href="#">Premium</a>
+                            </div>
+                        </div>
+                        <div class="advisor-card">
+                            <div class="advisor-badge">Top Advisor</div>
+                            <div class="online-indicator">Online</div>
+                            <img src="/asset/image/advisor2.jpg" loading="lazy" alt="Advisor 2">
+                            <h3>Sid PowerfulVisions</h3>
+                            <p data-more-info="Additional information about Career & Finances.">Specialty: Career & Finances</p>
+                            <div class="icons">
+                                <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                <a href="#"><i class="fas fa-phone"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                            <div class="advisor-buttons">
+                                <a href="#">Profile</a>
+                                <a href="#">Premium</a>
+                            </div>
+                        </div>
+                        <div class="advisor-card">
+                            <div class="advisor-badge">Top Advisor</div>
+                            <div class="online-indicator">Online</div>
+                            <img src="/asset/image/advisor3.jpg" loading="lazy" alt="Advisor 3">
+                            <h3>SPIRITUAL INSIGHTS B</h3>
+                            <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                            <div class="icons">
+                                <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                <a href="#"><i class="fas fa-phone"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                            <div class="advisor-buttons">
+                                <a href="#">Profile</a>
+                                <a href="#">Premium</a>
+                            </div>
+                        </div>
+                        <div class="advisor-card">
+                            <div class="advisor-badge">Top Advisor</div>
+                            <div class="online-indicator">Online</div>
+                            <img src="/asset/image/advisor4.jpg" loading="lazy" alt="Advisor 4">
+                            <h3>Seer Magdalena</h3>
+                            <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                            <div class="icons">
+                                <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                <a href="#"><i class="fas fa-phone"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                            <div class="advisor-buttons">
+                                <a href="#">Profile</a>
+                                <a href="#">Premium</a>
+                            </div>
+                        </div>
+                      
+                            <div class="advisor-card">
+                                <div class="advisor-badge">Top Advisor</div>
+                                <div class="online-indicator">Online</div>
+                                <img src="/asset/image/advisor1.jpg" loading="lazy" alt="Advisor 1">
+                                <h3>Jacqueline Lee</h3>
+                                <p data-more-info="Additional information about Love & Relationships.">Specialty: Love & Relationships</p>
+                                <div class="icons">
+                                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                    <a href="#"><i class="fas fa-phone"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                                <div class="advisor-buttons">
+                                    <a href="#">Profile</a>
+                                    <a href="#">Premium</a>
+                                </div>
+                            </div>
+                            <div class="advisor-card">
+                                <div class="advisor-badge">Top Advisor</div>
+                                <div class="online-indicator">Online</div>
+                                <img src="/asset/image/advisor2.jpg" loading="lazy" alt="Advisor 2">
+                                <h3>Sid PowerfulVisions</h3>
+                                <p data-more-info="Additional information about Career & Finances.">Specialty: Career & Finances</p>
+                                <div class="icons">
+                                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                    <a href="#"><i class="fas fa-phone"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                                <div class="advisor-buttons">
+                                    <a href="#">Profile</a>
+                                    <a href="#">Premium</a>
+                                </div>
+                            </div>
+                            <div class="advisor-card">
+                                <div class="advisor-badge">Top Advisor</div>
+                                <div class="online-indicator">Online</div>
+                                <img src="/asset/image/advisor3.jpg" loading="lazy" alt="Advisor 3">
+                                <h3>SPIRITUAL INSIGHTS B</h3>
+                                <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                                <div class="icons">
+                                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                    <a href="#"><i class="fas fa-phone"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                                <div class="advisor-buttons">
+                                    <a href="#">Profile</a>
+                                    <a href="#">Premium</a>
+                                </div>
+                            </div>
+                            <div class="advisor-card">
+                                <div class="advisor-badge">Top Advisor</div>
+                                <div class="online-indicator">Online</div>
+                                <img src="/asset/image/advisor4.jpg" loading="lazy" alt="Advisor 4">
+                                <h3>Seer Magdalena</h3>
+                                <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                                <div class="icons">
+                                    <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                    <a href="#"><i class="fas fa-phone"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                                <div class="advisor-buttons">
+                                    <a href="#">Profile</a>
+                                    <a href="#">Premium</a>
+                                </div>
+                            </div>
+                           
+                                <div class="advisor-card">
+                                    <div class="advisor-badge">Top Advisor</div>
+                                    <div class="online-indicator">Online</div>
+                                    <img src="/asset/image/advisor1.jpg" loading="lazy" alt="Advisor 1">
+                                    <h3>Jacqueline Lee</h3>
+                                    <p data-more-info="Additional information about Love & Relationships.">Specialty: Love & Relationships</p>
+                                    <div class="icons">
+                                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                        <a href="#"><i class="fas fa-phone"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                    <div class="advisor-buttons">
+                                        <a href="#">Profile</a>
+                                        <a href="#">Premium</a>
+                                    </div>
+                                </div>
+                                <div class="advisor-card">
+                                    <div class="advisor-badge">Top Advisor</div>
+                                    <div class="online-indicator">Online</div>
+                                    <img src="/asset/image/advisor2.jpg" loading="lazy" alt="Advisor 2">
+                                    <h3>Sid PowerfulVisions</h3>
+                                    <p data-more-info="Additional information about Career & Finances.">Specialty: Career & Finances</p>
+                                    <div class="icons">
+                                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                        <a href="#"><i class="fas fa-phone"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                    <div class="advisor-buttons">
+                                        <a href="#">Profile</a>
+                                        <a href="#">Premium</a>
+                                    </div>
+                                </div>
+                                <div class="advisor-card">
+                                    <div class="advisor-badge">Top Advisor</div>
+                                    <div class="online-indicator">Online</div>
+                                    <img src="/asset/image/advisor3.jpg" loading="lazy" alt="Advisor 3">
+                                    <h3>SPIRITUAL INSIGHTS B</h3>
+                                    <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                                    <div class="icons">
+                                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                        <a href="#"><i class="fas fa-phone"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                    <div class="advisor-buttons">
+                                        <a href="#">Profile</a>
+                                        <a href="#">Premium</a>
+                                    </div>
+                                </div>
+                                <div class="advisor-card">
+                                    <div class="advisor-badge">Top Advisor</div>
+                                    <div class="online-indicator">Online</div>
+                                    <img src="/asset/image/advisor4.jpg" loading="lazy" alt="Advisor 4">
+                                    <h3>Seer Magdalena</h3>
+                                    <p data-more-info="Additional information about Spiritual Guidance.">Specialty: Spiritual Guidance</p>
+                                    <div class="icons">
+                                        <a href="#"><i class="fas fa-comment-dots"></i></a>
+                                        <a href="#"><i class="fas fa-phone"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                    <div class="advisor-buttons">
+                                        <a href="#">Profile</a>
+                                        <a href="#">Premium</a>
+                                    </div>
+                                </div>
+            <!-- Add more advisor cards as needed -->
+        </div>
+    </div>
+</body>
+</html>
+
